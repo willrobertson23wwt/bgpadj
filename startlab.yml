@@ -43,7 +43,7 @@
 
     - name: Start all nodes in the lab
       uri:
-        url: "http://{{ eve_ng_host }}/api/labs{{ lab_path }}/nodes/start"
+        url: "http://{{ eve_ng_host }}/api/{{ lab_path }}/nodes/start"
         method: POST
         headers:
           Cookie: "unetlab_session={{ eve_ng_session_cookie }}"
