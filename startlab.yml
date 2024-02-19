@@ -36,6 +36,7 @@
         status_code: 200
         body_format: json
       loop: "{{ range(1, 21) }}"
+      when: item !=19
       register: start_lab_response
 
     - name: Print response for debugging
