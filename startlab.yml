@@ -27,8 +27,6 @@
       uri:
         url: "http://{{ eve_ng_host }}/api/labs{{ lab_path }}/start"
         method: POST
-        headers:
-          Cookie: "PHPSESSID={{ eve_ng_auth_token }}"
         status_code: 200
         body_format: json
       register: start_lab_response
