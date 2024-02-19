@@ -23,10 +23,6 @@
         validate_certs: no
       register: login_response
 
-    - name: Set auth token as a fact
-      set_fact:
-        eve_ng_auth_token: "{{ login_response.json.token }}"
-
     - name: Start the lab in EVE-NG
       uri:
         url: "http://{{ eve_ng_host }}/api/labs{{ lab_path }}/start"
