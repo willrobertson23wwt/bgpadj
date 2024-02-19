@@ -29,7 +29,14 @@
 
     - name: Start the lab in EVE-NG using the session cookie
       uri:
-        url: "http://{{ eve_ng_host }}/api/labs{{ lab_path }}/nodes/start"
+        url: "http://{{ eve_ng_host }}/api/labs{{ lab_path }}/nodes/{{ item }}/start"
+        loop:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
         method: GET
         headers:
           Cookie: "unetlab_session={{ eve_ng_session_cookie }}"
