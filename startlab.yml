@@ -41,19 +41,7 @@
       debug:
         var: start_lab_response
 
-    - name: Start all nodes in the lab
-      uri:
-        url: "http://{{ eve_ng_host }}/api/labs{{ lab_path }}/nodes/start"
-        method: POST
-        headers:
-          Cookie: "unetlab_session={{ eve_ng_session_cookie }}"
-        status_code: 200
-        body_format: json
-      register: start_nodes_response
 
-    - name: Print response for starting nodes
-      debug:
-        var: start_nodes_response
 
 
 
