@@ -1,0 +1,42 @@
+---
+- name: Login to EVE-NG and Start a Lab
+  hosts: localhost
+  gather_facts: no
+  vars:
+    eve_ng_host: "10.236.73.64"  # Replace with your EVE-NG host address
+    eve_ng_username: "admin"  # Replace with your EVE-NG username
+    eve_ng_password: "eve"  # Replace with your EVE-NG password
+    lab_path: "/opt/unetlabs/labs/BGP_Neighbor_Adj.unl"  # Replace with the path to your lab
+
+  tasks:
+    - name: Login to EVE-NG and retrieve auth token
+      uri:
+        url: "http://{{ eve_ng_host }}/api/auth/login"
+        method: POST
+        body_format: json
+        body: 
+          username: "{{ eve_ng_username }}"
+          password: "{{ eve_ng_password }}"
+        headers:
+          Content-Type: "application/json"
+        return_content: yes
+        validate_certs: no
+      register: login_response
+
+    - name: Set auth token as a fact
+      set_fact:
+        eve_ng_auth_token: "{{ login_response.json.token }}"
+
+    - name: Start the lab in EVE-NG
+      uri:
+        url: "http://{{ eve_ng_host }}/api/labs{{ lab_path }}/start"
+        method: POST
+        headers:
+          Cookie: "PHPSESSID={{ eve_ng_auth_token }}"
+        status_code: 200
+        body_format: json
+      register: start_lab_response
+
+    - name: Print response for debugging
+      debug:
+        var: start_lab_response
