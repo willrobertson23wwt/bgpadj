@@ -23,9 +23,23 @@
         validate_certs: no
       register: login_response
 
-    - name: Debug print the login response
+    - name: Set unetlab_session cookie as a fact
+      set_fact:
+        eve_ng_session_cookie: "{{ login_response.cookies.unetlab_session }}"
+
+    - name: Start the lab in EVE-NG using the session cookie
+      uri:
+        url: "http://{{ eve_ng_host }}/api/labs{{ lab_path }}/start"
+        method: POST
+        headers:
+          Cookie: "unetlab_session={{ eve_ng_session_cookie }}"
+        status_code: 200
+        body_format: json
+      register: start_lab_response
+
+    - name: Print response for debugging
       debug:
-         var: login_response
+        var: start_lab_response
 
 
   
