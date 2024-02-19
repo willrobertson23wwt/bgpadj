@@ -51,9 +51,9 @@
         body_format: json
       register: start_nodes_response
 
-   - name: Print response for starting nodes
-     debug:
-       var: start_nodes_response
+    - name: Print response for starting nodes
+      debug:
+        var: start_nodes_response
 
 
 
