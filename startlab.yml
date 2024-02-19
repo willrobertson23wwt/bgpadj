@@ -27,10 +27,6 @@
       debug:
          var: login_response
 
-    - name: Set auth token as a fact
-      eve_ng_auth_token: "{{ login_response.json.token }}"
-      debug:
-        var: eve_ng_auth_token
 
   
     
