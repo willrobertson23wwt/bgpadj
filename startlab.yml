@@ -30,7 +30,7 @@
     - name: Start the lab in EVE-NG using the session cookie
       uri:
         url: "http://{{ eve_ng_host }}/api/labs{{ lab_path }}/nodes/start"
-        method: POST
+        method: GET
         headers:
           Cookie: "unetlab_session={{ eve_ng_session_cookie }}"
         status_code: 200
