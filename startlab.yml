@@ -35,7 +35,7 @@
           Cookie: "unetlab_session={{ eve_ng_session_cookie }}"
         status_code: 200
         body_format: json
-      loop: "{{ range(1, 13) }}"
+      loop: "{{ range(1, 21) }}"
       register: start_lab_response
 
     - name: Print response for debugging
