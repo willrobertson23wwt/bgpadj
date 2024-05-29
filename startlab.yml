@@ -23,7 +23,7 @@
         validate_certs: no
       register: login_response
 
-    - name: Set unetlab_session cookie as a fact
+    - name: Set unetlab_session cookie as a fact test
       set_fact:
         eve_ng_session_cookie: "{{ login_response.cookies.unetlab_session }}"
 
