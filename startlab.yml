@@ -26,22 +26,35 @@
     - name: Set unetlab_session cookie as a fact test
       set_fact:
         eve_ng_session_cookie: "{{ login_response.cookies.unetlab_session }}"
-
-    - name: Start the lab in EVE-NG using the session cookie
+    
+    - name: Retrieve the list of nodes in the lab
       uri:
-        url: "http://{{ eve_ng_host }}/api/labs{{ lab_path }}/nodes/{{ item }}/start"
+        url: "http://{{ eve_ng_host }}/api/labs{{ lab_path }}/nodes"
         method: GET
         headers:
           Cookie: "unetlab_session={{ eve_ng_session_cookie }}"
-        status_code: 200
-        body_format: json
-      loop: "{{ range(1, 21) }}"
-      when: item !=19
-      register: start_lab_response
+        return_content: yes
+        validate_certs: no
+      register: nodes_response
 
-    - name: Print response for debugging
-      debug:
-        var: start_lab_response
+      - name: Extract node IDs from the response
+        set_fact:
+          node_ids: "{{ nodes_response.json | map(attribute='id') | list }}"
+
+      - name: Start the lab in EVE-NG using the session cookie
+        uri:
+          url: "http://{{ eve_ng_host }}/api/labs{{ lab_path }}/nodes/{{ item }}/start"
+          method: GET
+          headers:
+            Cookie: "unetlab_session={{ eve_ng_session_cookie }}"
+          status_code: 200
+          body_format: json
+        loop: "{{ node_ids }}"
+        register: start_lab_response
+
+      - name: Print response for debugging
+        debug:
+          var: start_lab_response
 
 
 
